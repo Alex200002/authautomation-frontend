@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios Técnicos | Desarrollo y Soporte</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <section class="container">
+    <h1>Servicios Técnicos</h1>
+    <p>Desarrollo · Instalaciones · Soporte · Asesorías</p>
+
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Nombre completo" required />
+      <input type="email" name="email" placeholder="Correo electrónico" required />
+      <input type="tel" name="telefono" placeholder="Teléfono / WhatsApp (opcional)"/>
+
+
+      <select name="service" required>
+        <option value="">Seleccione un servicio</option>
+        <option value="Desarrollo Web">Desarrollo Web</option>
+        <option value="Instalaciones">Instalaciones</option>
+        <option value="Soporte Técnico">Soporte Técnico</option>
+        <option value="Asesoría">Asesoría</option>
+      </select>
+
+      <textarea name="message" placeholder="Describa su necesidad..." required></textarea>
+
+      <button type="submit">Enviar solicitud</button>
+    </form>
+
+    <p id="responseMessage"></p>
+  </section>
+
+  <label>
+  <input type="checkbox" name="consentimiento" required />
+  Autorizo el contacto y el envío de información relacionada con los servicios
+  </label>
+
+  <script src="js/contact.js"></script>
+</body>
+</html>
