@@ -1,0 +1,6 @@
+# Node.js (si usas frameworks como React, Vue)
+node_modules/
+build/
+dist/
+.env
+.DS_Store
