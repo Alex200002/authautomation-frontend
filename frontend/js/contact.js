@@ -23,12 +23,14 @@ form.addEventListener("submit", async (e) => {
   submitButton.disabled = true;
 
   const formData = new FormData(form);
+  const serviceValue = formData.get("service")?.trim() || "No seleccionado"; // Ajuste aquí
+
   const data = {
     name: formData.get("name")?.trim(),
     email: formData.get("email")?.trim(),
-    telefono: formData.get("telefono")?.trim() || null,
-    service: formData.get("service")?.trim() || null,
-    message: formData.get("message")?.trim() || null,
+    telefono: formData.get("telefono")?.trim() || "",
+    service: serviceValue,
+    message: formData.get("message")?.trim() || "",
     consentimiento: formData.get("consentimiento") === "on"
   };
 
@@ -36,26 +38,24 @@ form.addEventListener("submit", async (e) => {
   let error = false;
 
   // Name validation
+  const nameInput = form.querySelector("[name='name']");
   if (!data.name) {
-    const nameInput = form.querySelector("[name='name']");
     if (nameInput) nameInput.style.borderColor = "#f87171";
     error = true;
   } else {
-    const nameInput = form.querySelector("[name='name']");
     if (nameInput) nameInput.style.borderColor = "#4ade80";
   }
 
   // Email validation
+  const emailInput = form.querySelector("[name='email']");
   if (!data.email) {
-    const emailInput = form.querySelector("[name='email']");
     if (emailInput) emailInput.style.borderColor = "#f87171";
     error = true;
   } else {
-    const emailInput = form.querySelector("[name='email']");
     if (emailInput) emailInput.style.borderColor = "#4ade80";
   }
 
-  // Consentimiento validation
+  // Consent validation
   if (!data.consentimiento) {
     error = true;
   }
