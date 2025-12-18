@@ -24,7 +24,7 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData(form);
   const data = {
-    nombre: formData.get("nombre")?.trim(),
+    name: formData.get("nombre")?.trim(),
     email: formData.get("email")?.trim(),
     telefono: formData.get("telefono")?.trim() || null,
     message: formData.get("message")?.trim() || null,
@@ -34,9 +34,9 @@ form.addEventListener("submit", async (e) => {
   // Validación mínima obligatoria
   let error = false;
 
-  if (!data.nombre) {
-    const nombreInput = form.querySelector("[name='nombre']");
-    nombreInput.style.borderColor = "#f87171";
+  if (!data.name) {
+    const nameInput = form.querySelector("[name='nombre']");
+    nameInput.style.borderColor = "#f87171";
     error = true;
   } else {
     form.querySelector("[name='nombre']").style.borderColor = "#4ade80";
