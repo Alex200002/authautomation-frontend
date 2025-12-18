@@ -16,17 +16,18 @@ form.addEventListener("submit", async (e) => {
     if (el.type !== "submit") el.style.borderColor = "";
   });
 
-  responseMessage.textContent = "Conectando con el servidor...";
+  responseMessage.textContent = "Connecting to server...";
   responseMessage.style.color = "#ccc";
   responseMessage.appendChild(spinner);
 
-  submitButton.disabled = true; // Deshabilitar botón
+  submitButton.disabled = true;
 
   const formData = new FormData(form);
   const data = {
-    name: formData.get("nombre")?.trim(),
+    name: formData.get("name")?.trim(),
     email: formData.get("email")?.trim(),
     telefono: formData.get("telefono")?.trim() || null,
+    service: formData.get("service")?.trim() || null,
     message: formData.get("message")?.trim() || null,
     consentimiento: formData.get("consentimiento") === "on"
   };
@@ -34,22 +35,27 @@ form.addEventListener("submit", async (e) => {
   // Validación mínima obligatoria
   let error = false;
 
+  // Name validation
   if (!data.name) {
-    const nameInput = form.querySelector("[name='nombre']");
-    nameInput.style.borderColor = "#f87171";
+    const nameInput = form.querySelector("[name='name']");
+    if (nameInput) nameInput.style.borderColor = "#f87171";
     error = true;
   } else {
-    form.querySelector("[name='nombre']").style.borderColor = "#4ade80";
+    const nameInput = form.querySelector("[name='name']");
+    if (nameInput) nameInput.style.borderColor = "#4ade80";
   }
 
+  // Email validation
   if (!data.email) {
     const emailInput = form.querySelector("[name='email']");
-    emailInput.style.borderColor = "#f87171";
+    if (emailInput) emailInput.style.borderColor = "#f87171";
     error = true;
   } else {
-    form.querySelector("[name='email']").style.borderColor = "#4ade80";
+    const emailInput = form.querySelector("[name='email']");
+    if (emailInput) emailInput.style.borderColor = "#4ade80";
   }
 
+  // Consentimiento validation
   if (!data.consentimiento) {
     error = true;
   }
@@ -58,7 +64,7 @@ form.addEventListener("submit", async (e) => {
     spinner.remove();
     responseMessage.style.color = "#f87171";
     responseMessage.textContent =
-      "Por favor completa los campos obligatorios y acepta el consentimiento";
+      "Please complete the required fields and accept consent.";
     responseMessage.scrollIntoView({ behavior: "smooth" });
     submitButton.disabled = false;
     return;
@@ -66,8 +72,7 @@ form.addEventListener("submit", async (e) => {
 
   // Timeout si el servidor tarda
   const loadingTimeout = setTimeout(() => {
-    responseMessage.textContent =
-      "Servidor lento, por favor espera... ⏳";
+    responseMessage.textContent = "Server is taking long, please wait... ⏳";
     responseMessage.style.color = "#facc15";
     responseMessage.appendChild(spinner);
     responseMessage.scrollIntoView({ behavior: "smooth" });
@@ -90,16 +95,16 @@ form.addEventListener("submit", async (e) => {
     try {
       result = await response.json();
     } catch (jsonError) {
-      throw new Error("El servidor no respondió con JSON válido");
+      throw new Error("Server did not respond with valid JSON");
     }
 
     if (!response.ok) {
-      throw new Error(result.message || "Error desconocido del servidor");
+      throw new Error(result.message || "Unknown server error");
     }
 
-    // Éxito
+    // Success
     responseMessage.style.color = "#4ade80";
-    responseMessage.textContent = "¡Solicitud enviada correctamente ✔️";
+    responseMessage.textContent = "Request sent successfully ✔️";
     responseMessage.scrollIntoView({ behavior: "smooth" });
     form.reset();
     Array.from(form.elements).forEach(el => {
@@ -110,18 +115,18 @@ form.addEventListener("submit", async (e) => {
   } catch (error) {
     clearTimeout(loadingTimeout);
     spinner.remove();
-    console.error("Error en fetch o backend:", error);
+    console.error("Fetch or backend error:", error);
 
     responseMessage.style.color = "#f87171";
     if (error.message.includes("Failed to fetch")) {
       responseMessage.textContent =
-        "No se pudo conectar con el servidor. Revisa tu conexión ❌";
+        "Cannot connect to the server. Check your connection ❌";
     } else {
       responseMessage.textContent = `Error: ${error.message}`;
     }
     responseMessage.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => responseMessage.textContent = "", 5000);
   } finally {
-    submitButton.disabled = false; // Rehabilitar botón
+    submitButton.disabled = false;
   }
 });
