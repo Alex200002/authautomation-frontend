@@ -1,5 +1,11 @@
 const API_URL = "http://localhost:3000/api";
 
+// ⚠️ SOLO PARA PRUEBAS LOCALES
+const USERNAME = "admin";      // ADMIN_USER
+const PASSWORD = "password";   // ADMIN_PASSWORD
+
+const AUTH_HEADER = "Basic " + btoa(`${USERNAME}:${PASSWORD}`);
+
 async function loadContacts() {
   const status = document.getElementById("statusFilter").value;
 
@@ -7,7 +13,13 @@ async function loadContacts() {
   if (status) url += `?status=${status}`;
 
   try {
-    const res = await fetch(url);
+
+    const res = await fetch(url, {
+      headers: {
+        "Authorization": AUTH_HEADER
+      }
+    });
+
     const data = await res.json();
 
     const table = document.getElementById("contactsTable");
@@ -47,7 +59,10 @@ async function resendEmail(id) {
 
   try {
     const res = await fetch(`${API_URL}/contact/resend/${id}`, {
-      method: "POST"
+      method: "POST",
+      headers: {
+        "Authorization": AUTH_HEADER
+      }
     });
 
     const data = await res.json();
