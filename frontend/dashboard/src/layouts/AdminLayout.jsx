@@ -1,13 +1,16 @@
-import Sidebar from "../components/common/Sidebar";
-import { Outlet } from "react-router-dom";
+import LogoutButton from "../components/ui/LogoutButton";
 
-export default function AdminLayout() {
+const AdminLayout = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <Sidebar />
-      <main style={{ padding: 20 }}>
-        <Outlet />
-      </main>
-    </div>
+    <>
+      <header>
+        <h1>Admin Dashboard</h1>
+        <LogoutButton />
+      </header>
+
+      <main>{/* rutas internas */}</main>
+    </>
   );
-}
+};
+
+export default AdminLayout;

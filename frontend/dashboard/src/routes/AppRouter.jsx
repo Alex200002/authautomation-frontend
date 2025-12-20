@@ -13,10 +13,13 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import Users from "../pages/admin/Users";
 import Settings from "../pages/admin/Settings";
 
+import Login from "../pages/auth/Login";
+
 /* REDIRECCIÓN INICIAL */
 function RoleRedirect() {
   const { user } = useAuth();
-  if (!user) return null;
+
+  if (!user) return <Navigate to="/login" replace />;
 
   return user.role === "admin"
     ? <Navigate to="/admin" replace />
@@ -26,6 +29,9 @@ function RoleRedirect() {
 export default function AppRouter() {
   return (
     <Routes>
+
+      {/* LOGIN */}
+      <Route path="/login" element={<Login />} />
 
       {/* ENTRY POINT */}
       <Route path="/" element={<RoleRedirect />} />
@@ -48,6 +54,7 @@ export default function AppRouter() {
         </Route>
       </Route>
 
+      {/* 404 */}
       <Route path="*" element={<h1>404</h1>} />
 
     </Routes>
