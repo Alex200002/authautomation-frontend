@@ -5,6 +5,7 @@ import { loginRequest } from "../../services/authService";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -13,19 +14,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Intentando login con:", form); // Debug
+    setLoading(true);
 
     try {
+      // Llamada al backend
       const { token, role } = await loginRequest(form);
-      console.log("Respuesta backend:", { token, role }); // Debug
+
+      // Guardar token y rol en AuthContext / localStorage
       login(token, role);
 
-      // Redirige según rol
-      navigate(role === "admin" ? "/admin" : "/business");
+      // Redirige al entry point; RoleRedirect se encarga de decidir la ruta según rol
+      navigate("/", { replace: true });
     } catch (error) {
       console.error("Error login:", error);
       alert("Credenciales inválidas");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,6 +46,7 @@ const Login = () => {
         required
         style={{ width: "100%", marginBottom: "10px" }}
       />
+
       <input
         type="password"
         name="password"
@@ -52,7 +57,9 @@ const Login = () => {
         style={{ width: "100%", marginBottom: "10px" }}
       />
 
-      <button type="submit" style={{ width: "100%" }}>Entrar</button>
+      <button type="submit" style={{ width: "100%" }} disabled={loading}>
+        {loading ? "Ingresando..." : "Entrar"}
+      </button>
     </form>
   );
 };
