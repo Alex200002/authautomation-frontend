@@ -1,7 +1,7 @@
 import Sidebar from "../components/common/Sidebar";
 import { Outlet } from "react-router-dom";
 
-export default function AdminLayout() {
+export default function BusinessLayout() {
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <Sidebar />

@@ -1,11 +1,11 @@
-import Dashboard from "./pages/bussines/Dashboard";
-import MainLayout from "./layouts/MainLayout";
+import { AuthProvider } from "./context/AuthContext";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
   return (
-    <MainLayout>
-      <Dashboard />
-    </MainLayout>
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
   );
 }
 
